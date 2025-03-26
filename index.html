@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bußgeld Katalog</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+        .header {
+            background: #3174f1;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .miranda-rechte, .search-bar, .law-header {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-bar, .law-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            padding: 0 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+        }
+        .law-header button {
+            background: #3174f1;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .law-header button:hover {
+            background: #3174f1;
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 Karten pro Zeile */
+            grid-gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: block;
+            position: relative; /* Position für die kleinen Kästchen */
+        }
+        .card h3 {
+            color: #4CAF50;
+        }
+        .card p {
+            color: #bbb;
+        }
+        .card .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .card .badge div {
+            background-color: #3174f1;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .card .icon {
+            font-size: 16px; /* Größer für Symbole */
+            margin-right: 5px;
+        }
+        .card.hidden {
+            display: none;
+        }
+        .law-header.hidden {
+            visibility: hidden;
+        }
+        .law-container.hidden {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Bußgeld Katalog</div>
+    <div class="container">
+        <!-- Miranda Rechte Section -->
+        <div class="miranda-rechte">
+            <h2>Miranda Rechte</h2>
+            <p>Sie haben das Recht zu schweigen, alles was Sie sagen kann und wird vor Gericht gegen Sie verwendet werden können.</p>
+            <p>Sie haben das Recht zu jeder Vernehmung Ihren Rechtsanwalt hinzuzuziehen.</p>
+            <p>Haben Sie Ihre Rechte verstanden?</p>
+        </div>
+
+        <!-- Search Bar Section -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Suche nach Delikt, Paragraph oder Gesetz..." onkeyup="searchLaw()">
+        </div>
+
+        <!-- Gesetzbuch Section 1 -->
+        <div class="law-header" id="law-header-1">
+            <h2>Strafgesetzbuch</h2>
+            <button onclick="window.location.href='https://docs.google.com/document/d/1Lv5zXF7gLRShaP-AY_Bgr_SDb3DIkpImBftq2hUOfUo/edit?usp=sharing'">Gesetzbuch</button>
+        </div>
+
+        <!-- Gesetzesartikel Cards Section 1 -->
+        <div class="card-container" id="law-container-1">
+            <div class="card" data-law="Hausfriedensbruch">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§8 Hausfriedensbruch</h3>
+                <p><span class="icon">💰</span> Strafe: 15.000€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Beleidigung">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§9 Beleidigung</h3>
+                <p><span class="icon">💰</span> Strafe: 20.000€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Üble Nachrede">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§10 Üble Nachrede</h3>
+                <p><span class="icon">💰</span> Strafe: 20.000€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Sachbeschädigung">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§11 Sachbeschädigung</h3>
+                <p><span class="icon">💰</span> Strafe: 7.500€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+        </div>
+
+        <!-- Gesetzbuch Section 2 -->
+        <div class="law-header" id="law-header-2">
+            <h2>Waffengesetz</h2>
+            <button onclick="window.location.href='https://docs.google.com/document/d/1cNH5ZyJswn5XMnUnNlHAMDUvH2EwaNkc0Of2AGZy4nQ/edit?usp=sharing'">Gesetzbuch</button>
+        </div>
+
+        <!-- Gesetzesartikel Cards Section 2 -->
+        <div class="card-container" id="law-container-2">
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§16 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§17 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§18 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§19 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+        </div>
+
+        <!-- Gesetzbuch Section 3 -->
+        <div class="law-header" id="law-header-3">
+            <h2>Straßenverkehrsordnung</h2>
+            <button onclick="window.location.href='https://docs.google.com/document/d/1-AClIByd-_pybUW2zpheTfngR76TuI-E73_hNxstYf4/edit?usp=sharing'">Gesetzbuch</button>
+        </div>
+
+        <!-- Gesetzesartikel Cards Section 3 -->
+        <div class="card-container" id="law-container-3">
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§20 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§21 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§22 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Leer">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§23 (Leer)</h3>
+                <p><span class="icon">💰</span> Hier kannst du etwas einfügen</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+        </div>
+
+        <!-- Gesetzbuch Section 4 -->
+        <div class="law-header" id="law-header-4">
+            <h2>Betäubungsmittelsgesetz</h2>
+            <button onclick="window.location.href='https://docs.google.com/document/d/1K6Z8QK_i9ExMCbdfvPAn2c23f9LUYwuREWGYyYk7IHo/edit?usp=sharing'">Gesetzbuch</button>
+        </div>
+
+        <!-- Gesetzesartikel Cards Section 4 -->
+        <div class="card-container" id="law-container-4">
+            <div class="card" data-law="Betäubungsmittel">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§20 Betäubungsmittel</h3>
+                <p><span class="icon">💰</span> Strafe: 10.000€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Betäubungsmittel">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§21 Betäubungsmittel</h3>
+                <p><span class="icon">💰</span> Strafe: 10.000€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Betäubungsmittel">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§22 Betäubungsmittel</h3>
+                <p><span class="icon">💰</span> Strafe: 10.000€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+            <div class="card" data-law="Betäubungsmittel">
+                <div class="badge">
+                    <div>STA</div>
+                    <div>FIB</div>
+                </div>
+                <h3>§23 Betäubungsmittel</h3>
+                <p><span class="icon">💰</span> Strafe: 10.000€</p>
+                <p><span class="icon">⭐</span> 1 Wanted</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchLaw() {
+            var input, filter, cards, lawName, lawSections, sectionEmpty, i, j;
+            input = document.getElementById('searchInput');
+            filter = input.value.toLowerCase();
+            lawSections = document.querySelectorAll('.law-header');
+            
+            // Durchlaufen aller Sektionen und Karten
+            for (i = 0; i < lawSections.length; i++) {
+                var section = lawSections[i];
+                var containerId = section.id.replace('law-header', 'law-container');
+                var container = document.getElementById(containerId);
+                cards = container.querySelectorAll('.card');
+                sectionEmpty = true;
+
+                // Durchsuchen der Karten in jeder Sektion
+                for (j = 0; j < cards.length; j++) {
+                    lawName = cards[j].getAttribute('data-law');
+                    // Normalisieren der Suche auf Kleinbuchstaben und Suchen nach dem Filter
+                    if (lawName.toLowerCase().includes(filter)) {
+                        cards[j].classList.remove('hidden');
+                        sectionEmpty = false;
+                    } else {
+                        cards[j].classList.add('hidden');
+                    }
+                }
+
+                // Verstecke den Header, wenn keine Karten mehr sichtbar sind
+                if (sectionEmpty) {
+                    section.classList.add('hidden');
+                    container.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                    container.classList.remove('hidden');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
