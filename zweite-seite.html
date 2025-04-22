@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Bußgeldrechner</title>
+    <style>
+        /* Deine Styles bleiben gleich */
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: #3174f1;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 50px;
+            gap: 40px;
+        }
+        .button-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        .top-buttons, .bottom-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .extra-inputs {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+            justify-content: center;
+        }
+        .extra-inputs div {
+            flex: 1;
+        }
+        .button-with-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .button-with-text small {
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        button {
+            background-color: #1e90ff;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 250px;
+        }
+        button:hover {
+            background-color: #1c86ee;
+        }
+        input[type="date"],
+        input[type="time"],
+        input[type="text"] {
+            background-color: #1e1e1e;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            width: 180px;
+            text-align: center;
+            font-weight: bold;
+            height: 40px;
+        }
+        .input-wrapper {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 10px;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            gap: 10px;
+        }
+        .gray-box {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+        .search-wrapper {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            gap: 10px;
+            width: 690px;
+            margin-top: 5px;
+        }
+        .search-wrapper input[type="text"] {
+            background-color: #1e1e1e;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            width: 97%;
+            text-align: center;
+            font-weight: bold;
+            height: 40px;
+        }
+        .law-result {
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 10px;
+    text-align: left;
+    cursor: default;
+    position: relative;
+}
+
+.law-result .remove-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: red;
+    border: none;
+    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.law-result .remove-btn:hover {
+    background-color: darkred;
+}
+.status-badges {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.badge {
+    background-color: #1e90ff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    user-select: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.badge:hover {
+    background-color: #1c86ee;
+    transform: scale(1.05);
+}
+
+.badge.active {
+    background-color: #104eaa;
+}
+.status-badges {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.badge {
+    background-color: #104eaa;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 12px;
+    font-size: 0.9em;
+}
+.badge.exclude {
+    background-color: red; /* Rot für "Schließt aus" */
+}
+    </style>
+</head>
+<body>
+    <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+        <a href="index.html" style="color: white; text-decoration: none; font-size: 14px; background: #255ac7; padding: 6px 10px; border-radius: 4px; margin-right: auto;">
+            Bußgeld Katalog
+        </a>
+        <span style="flex-grow: 1; text-align: center;">Bußgeldrechner</span>
+        <span style="width: 80px;"></span>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Linke Seite -->
+        <div class="button-wrapper">
+            <div class="top-buttons">
+                <button onclick="createNewCase()">Neue Akte erstellen</button>
+                <button onclick="setCurrentDateTime()">Aktuelle Zeit</button>
+            </div>
+
+            <div class="bottom-buttons">
+                <div class="input-wrapper">
+                    <small>Datum</small>
+                    <input type="date" id="dateInput">
+                </div>
+                <div class="input-wrapper">
+                    <small>Uhrzeit</small>
+                    <input type="time" id="timeInput">
+                </div>
+                <div class="input-wrapper">
+                    <small>MDT Zusatzinfos</small>
+                    <input type="text" id="mdtInput" placeholder="z.B. STA, +1 Wanted, Ausbildung">
+                </div>
+            </div>
+
+            <div class="extra-inputs">
+                <div class="input-wrapper">
+                    <small>Name</small>
+                    <input type="text" id="nameInput" placeholder="Name">
+                </div>
+                <div class="input-wrapper">
+                    <small>KFZ Kennzeichen</small>
+                    <input type="text" id="plateInput" placeholder="KFZ Kennzeichen">
+                </div>
+            </div>
+
+            <div class="input-wrapper">
+                <small>Ort (Optional)</small>
+                <input type="text" placeholder="Ort">
+            </div>
+
+            <div class="search-wrapper">
+                <small>Straftat hinzufügen</small>
+                <input type="text" id="searchInput" placeholder="Suche nach Gesetzen und Paragraphen">
+                <div id="resultsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Rechte Seite -->
+        <div class="gray-box">
+            <div style="width: 100%;">
+                <div id="timerDisplay">
+                    <span><strong>Inhaftierungszeit:</strong></span>
+                    <span id="timer">25:00</span>
+                </div>
+                <div id="HaftstrafeDisplay" style="margin-top: 20px; font-size: 16px;">
+                    <strong><Gesamt-Haftstrafe>Gesamt-Haftstrafe</Gesamt-Haftstrafe>:</strong> <span id="HaftstrafeCount">0</span> Minuten
+                </div>
+                <div id="bußgeldDisplay" style="margin-top: 10px; font-size: 16px;">
+                    <strong>Gesamt-Bußgeld:</strong> <span id="bußgeldCount">0 $</span>
+                </div>
+                <div class="status-badges" id="statusBadges">
+                    <!-- STA und FIB werden hier eingefügt -->
+                </div>
+                
+                <!-- Antragsdelikt -->
+                <div id="antragsdeliktBox" class="status-badges" style="display: none;">
+                    <div class="badge">Antragsdelikt</div>
+                </div>                              
+                <div id="summaryBox" style="margin-top: 20px; font-size: 12px; color: #aaa;"></div>
+            </div>
+            <div id="selectedLaws" style="margin-top: 20px; font-size: 13px; color: #ccc;"></div>
+        </div>
+    </div>
+
+<script>
+    const lawData = [
+    // StGB
+    { paragraph: "§ 8 StGB – Hausfriedensbruch", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 9 StGB – Beleidigung", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 10 StGB – Üble Nachrede / Verleumdung", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 11 StGB – Sachbeschädigung", Haftstrafe: 30, geldstrafe: "100000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 12 StGB – Körperverletzung", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt + Schließt aus §23, 27 StGB" },
+    { paragraph: "§ 13 StGB – Freiheitsberaubung", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §14, 37 StGB" },
+    { paragraph: "§ 14 StGB – Geiselnahme", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §13, 16, 37 StGB" },
+    { paragraph: "§ 15 StGB – Bildung von bewaffneten Gruppierungen", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 16 StGB – Erpressung", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt + Schließt aus §37 StGB" },
+    { paragraph: "§ 17 StGB – Diebstahl", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 18 StGB – Betrug und Computerbetrug", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 19 StGB – Urkundenfälschung", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 20 StGB – Dienstvergehen", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "FIBCO & Leitung muss mit vor Ort sein" },
+    { paragraph: "§ 21 StGB – Unterlassene Hilfeleistung", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 22 StGB – Totschlag", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §12, 23 StGB" },
+    { paragraph: "§ 23 StGB – Mord", Haftstrafe: 75, geldstrafe: "25000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §12, 22, 46 StGB" },
+    { paragraph: "§ 24 StGB – Falsche Verdächtigung", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 25 StGB – Meineid​", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 26 StGB – Widerstand gegen Vollstreckungsbeamte", Haftstrafe: 15, geldstrafe: "5000$", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §27 StGB" },
+    { paragraph: "§ 27 StGB – Tätlicher Angriff auf Vollstreckungsbeamte​", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §12, 26 StGB" },
+    { paragraph: "§ 28 StGB – Gefangenenbefreiung​", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 29 StGB – Gefangenenmeuterei​", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 30 StGB – Besitz illegaler Gegenstände​", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 31 StGB – Besitz von staatlichem Eigentum​", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 32 StGB – Sexuelle Belästigung", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 33 StGB – Sicherheitsbereiche (Landfriedensbruch)​", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "schwerer Fall möglich + Schließt aus: §34 StGB" },
+    { paragraph: "§ 34 StGB – Ruhezone​", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §33 StGB" },
+    { paragraph: "§ 35 StGB – Amtsanmaßung", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 36 StGB – Amtsmissbrauch​", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 37 StGB – Nötigung, Bedrohung, Belästigung", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 38 StGB – Missbräuchlicher Notruf​", Haftstrafe: 15, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 39 StGB – Vermummung und Identitätsfeststellung", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 40 StGB – Bestechung", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 41 StGB – Tierquälerei", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 42 StGB – Hochverrat​", Haftstrafe: 75, geldstrafe: "25000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 43 StGB – Stalking​", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 44 StGB – Behinderung von Ermittlungsverfahren", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 45 StGB – Erregung öffentlichen Ärgernisses​", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 46 StGB – Terroristischer Akt​", Haftstrafe: 75, geldstrafe: "25000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §23 StGB" },
+    { paragraph: "§ 47 StGB – Inverkehrbringen von medizinischen Mitteln​", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 48 StGB – Erschleichen von Leistungen", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Antragsdelikt" },
+    { paragraph: "§ 49 StGB – Unerlaubte Veranstaltung eines Glücksspiels", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §50 StGB" },
+    { paragraph: "§ 50 StGB – Beteiligung am unerlaubten Glücksspiel​", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §49 StGB" },
+    { paragraph: "§ 51 StGB – Wahlbehinderung", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 53 StGB – Lizenzhandel​", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: true, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §4.3 WaffG" },
+    { paragraph: "§ 54 StGB – Raubüberfall", Haftstrafe: 60, geldstrafe: "20000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §55 StGB" },
+    { paragraph: "§ 55 StGB – Schwerer Raubüberfall", Haftstrafe: 75, geldstrafe: "25000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §54 StGB" },
+    // WaffG
+    { paragraph: "§ 4.3 WaffG – Waffenscheinweitergabe", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Entzug der Waffenlizenz" },
+    { paragraph: "§ 5.1 WaffG – Besitz illegaler Waffen (inkl. Munition)", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §5.4 WaffG" },
+    { paragraph: "§ 5.2 WaffG – Besitz legaler Waffen ohne Seriennummer", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §5.3 WaffG" },
+    { paragraph: "§ 5.3 WaffG – Besitz einer legalen Waffe ohne Lizenz", Haftstrafe: 15, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §5.2, 5.4 WaffG" },
+    { paragraph: "§ 5.4 WaffG – Besitz von Munition ohne Lizenz", Haftstrafe: 15, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Munition + Schließt aus §5.3 WaffG" },
+    { paragraph: "§ 5.5 WaffG – Besitz von modifizierten Waffen", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Munition + Schließt aus §5.1 WaffG" },
+    { paragraph: "§ 6.1 WaffG – Verstoß gegen eine Waffenverbotszone", Haftstrafe: 15, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Waffe / Entzug der Waffenlizenz" },
+    { paragraph: "§ 6.2 WaffG – Unerlaubte Waffennutzung", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §22, 23 StGB" },
+    { paragraph: "§ 7.1 WaffG – Unerlaubter Waffenhandel legaler Waffen", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Waffe + Schließt aus §7.2 WaffG" },
+    { paragraph: "§ 7.2 WaffG – Unerlaubter Waffenhandel illegaler Waffen", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §7.1 WaffG" },
+    // StVO
+    { paragraph: "§ 2.5 StVO – Nichtmitführen eines Reparatur- und Verbandsmaterial im Kofferraum", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 2.8 StVO – Fehlende KFZ-Registrierung", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 2.11 StVO – Teilnahme am Straßenverkehr unter Alkohol/BtM", Haftstrafe: 0, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führerscheinentzug" },
+    { paragraph: "§ 4.3 StVO – Fahren abseits befestigter Straßen", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 5 StVO – Gefährlicher Eingriff in den Straßenverkehr", Haftstrafe: 0, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führerscheinentzug + Schließt aus Alle weiteren StVO § außer §2.8, 15" },
+    { paragraph: "§ 5.3 StVO – Fahren entgegen der Fahrtrichtung", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 6a StVO – Geschwindigkeitsüberschreitung 25-100 km/h", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 6b StVO – Geschwindigkeitsüberschreitung 101-200 km/h", Haftstrafe: 0, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führerscheinentzug" },
+    { paragraph: "§ 6c StVO – Geschwindigkeitsüberschreitung über 201 km/h", Haftstrafe: 0, geldstrafe: "7500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führerscheinentzug + Schließt aus §6b StVO" },
+    { paragraph: "§ 7.1 StVO – Missachtung von Stoppschildern / Stopp Markierungen", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 7.3 StVO – Missachtung von Wendeverbotsschildern", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 8.5 StVO – Missachtung der Vorfahrtsregel Rechts vor Links", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 9 StVO – Unzulässiges Halten und Parken", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    { paragraph: "§ 10.3 StVO – Illegales Straßenrennen", Haftstrafe: 0, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führerscheinentzug" },
+    { paragraph: "§ 11.5 StVO – Unerlaubtes Entfernen vom Unfallort (Fahrerflucht)", Haftstrafe: 0, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führerscheinentzug" },
+    { paragraph: "§ 13.1 StVO – Nichtgenehmigtes Starten/Landen von Fluggeräten", Haftstrafe: 0, geldstrafe: "2500 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führer-/Flugscheinentzug" },
+    { paragraph: "§ 15 StVO – Missachtung von Stopp-Anforderungen der Beamten", Haftstrafe: 0, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Führerscheinentzug" },
+    // BtMG
+    { paragraph: "§ 3 BtMG – Anbau von Betäubungsmitteln", Haftstrafe: 30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Straffrei mit Ärztlichem Gutachten" },
+    { paragraph: "§ 4 BtMG – Besitz von Betäubungsmitteln", Haftstrafe:30, geldstrafe: "10000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Straffrei: Drogen 4 Stk. & 2 Samen mit Ärztlichem Gutachten" },
+    { paragraph: "§ 5 BtMG – Handel mit Betäubungsmitteln", Haftstrafe: 45, geldstrafe: "15000 $", showSTA: true, showFIB: true, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "Schließt aus §4 BtMG" },
+    { paragraph: "§ 6 BtMG – Konsum von Betäubungsmitteln", Haftstrafe: 15, geldstrafe: "5000 $", showSTA: false, showFIB: false, showAntragsdelikt: true, antragsdeliktText: "", showExcludes: true, excludeLabel: "" },
+    // Weitere Paragraphen nach Bedarf
+];
+
+    let selectedLaws = [];
+    let countdownInterval;
+    const TIMER_DURATION = 25 * 60;
+    let timeRemaining = 0;
+
+    function calculateRemainingTime(inputTime) {
+        if (!inputTime) return 0;
+        const now = new Date();
+        const [hours, minutes] = inputTime.split(":").map(Number);
+        const inputDate = new Date();
+        inputDate.setHours(hours, minutes, 0, 0);
+        const diffInSeconds = Math.floor((now - inputDate) / 1000);
+        if (diffInSeconds < 0) {
+            alert("Die ausgewählte Zeit liegt in der Zukunft. Bitte wähle eine gültige Zeit.");
+            return 0;
+        }
+        const remaining = TIMER_DURATION - diffInSeconds;
+        return Math.max(0, Math.min(remaining, TIMER_DURATION));
+    }
+
+    function startTimerFromInput() {
+        const timeInput = document.getElementById("timeInput").value;
+        timeRemaining = calculateRemainingTime(timeInput);
+        clearInterval(countdownInterval);
+        updateTimerDisplay(timeRemaining);
+        countdownInterval = setInterval(() => {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                updateTimerDisplay(timeRemaining);
+            } else {
+                clearInterval(countdownInterval);
+                updateTimerDisplay(0);
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        document.getElementById("timer").textContent =
+            `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    document.getElementById("timeInput").addEventListener("input", startTimerFromInput);
+
+    function setCurrentDateTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('timeInput').value = `${hours}:${minutes}`;
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        document.getElementById('dateInput').value = `${year}-${month}-${day}`;
+        startTimerFromInput();
+        updateHaftstrafeAndBußgeldDisplay();
+    }
+
+    function updateHaftstrafeAndBußgeldDisplay() {
+    const totalHaftstrafe = selectedLaws.reduce((sum, law) => sum + law.Haftstrafe, 0);
+    document.getElementById("HaftstrafeCount").textContent = Math.min(totalHaftstrafe, 75 );
+    const totalBußgeld = selectedLaws.reduce((sum, law) => sum + parseInt(law.geldstrafe), 0);
+    document.getElementById("bußgeldCount").textContent = totalBußgeld + " $";
+
+    // Überprüfen, ob Antragsdelikt angezeigt werden soll
+    const antragsdelikte = selectedLaws
+    .filter(law => law.antragsdeliktText)
+    .map(law => `<div class="badge">${law.antragsdeliktText}</div>`);
+
+
+    const lawList = selectedLaws.map((law, index) => {
+    const showSTA = law.showSTA ? `<div class="badge">STA</div>` : "";
+    const showFIB = law.showFIB ? `<div class="badge">FIB</div>` : "";
+    const badges = (showSTA || showFIB) ? `<div class="status-badges">${showSTA}${showFIB}</div>` : "";
+
+    const showExcludes = law.showExcludes && law.excludeLabel 
+  ? `<div class="status-badges"><div class="badge exclude">${law.excludeLabel}</div></div>` 
+  : "";
+
+    return `
+        <div class="law-result" data-index="${index}">
+            <button class="remove-btn" title="Entfernen">×</button>
+            <strong>${law.paragraph}</strong><br>
+            🚔 Haftstrafe: <strong>${law.Haftstrafe} Minuten </strong><br>
+            💰 Geldstrafe: <strong>${law.geldstrafe}</strong>
+            ${badges}
+            ${showExcludes}
+        </div>
+    `;
+}).join("");
+
+    document.getElementById("selectedLaws").innerHTML = lawList;
+
+    // Wenn ein Antragsdelikt angezeigt werden soll, das Eingabefeld einblenden
+    const antragsBox = document.getElementById("antragsdeliktBox");
+if (antragsdelikte.length > 0) {
+    antragsBox.style.display = "flex";
+    antragsBox.innerHTML = antragsdelikte.join("");
+} else {
+    antragsBox.style.display = "none";
+}
+
+
+    // 🛠️ Event Listener für Entfernen-Buttons
+    document.querySelectorAll(".remove-btn").forEach((btn, i) => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            removeLaw(i);
+        });
+    });
+
+    const date = document.getElementById("dateInput").value || "Kein Datum";
+    const time = document.getElementById("timeInput").value || "Keine Uhrzeit";
+    const paragraphs = selectedLaws.map(law => law.paragraph).join(", ") || "Keine Paragraphen";
+    document.getElementById("summaryBox").innerHTML = `${date} ${time} | ${paragraphs} | ${totalHaftstrafe} Minuten Haftstrafe`;
+}
+
+
+    function removeLaw(index) {
+        selectedLaws.splice(index, 1);
+        updateHaftstrafeAndBußgeldDisplay();
+    }
+
+    document.getElementById("searchInput").addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase();
+        const resultsContainer = document.getElementById("resultsContainer");
+        if (searchTerm === "") {
+            resultsContainer.innerHTML = "";
+            return;
+        }
+        const results = lawData.filter(law =>
+            law.paragraph.toLowerCase().includes(searchTerm)
+        );
+        if (results.length === 0) {
+            resultsContainer.innerHTML = "<p style='color: #ccc;'>Keine passenden Gesetze gefunden.</p>";
+            return;
+        }
+        resultsContainer.innerHTML = results.map(law => `
+            <div class="law-result" data-paragraph="${law.paragraph}">
+                <strong>${law.paragraph}</strong><br>
+                🚔 Haftstrafe: <strong>${law.Haftstrafe} Minuten </strong><br>
+                💰 Geldstrafe: <strong>${law.geldstrafe}</strong>
+            </div>
+        `).join("");
+        document.querySelectorAll(".law-result").forEach(el => {
+            el.addEventListener("click", function () {
+                const paragraph = this.getAttribute("data-paragraph");
+                const selected = lawData.find(l => l.paragraph === paragraph);
+                if (selected && !selectedLaws.includes(selected)) {
+                    selectedLaws.push(selected);
+                    updateHaftstrafeAndBußgeldDisplay();
+                }
+            });
+        });
+    });
+
+    function createNewCase() {
+        document.getElementById('dateInput').value = '';
+        document.getElementById('timeInput').value = '';
+        document.getElementById('mdtInput').value = '';
+        document.getElementById('nameInput').value = '';
+        document.getElementById('plateInput').value = '';
+        document.querySelector('input[placeholder="Ort"]').value = '';
+        document.getElementById('searchInput').value = '';
+        document.getElementById('resultsContainer').innerHTML = '';
+        selectedLaws = [];
+        updateHaftstrafeAndBußgeldDisplay();
+        clearInterval(countdownInterval);
+        timeRemaining = TIMER_DURATION;
+        document.getElementById("timer").textContent = "25:00";
+    }
+    function toggleBadge(element) {
+    element.classList.toggle("active");
+}
+</script>
+</body>
+</html>

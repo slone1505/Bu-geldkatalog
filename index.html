@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bußgeld Katalog</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+        .header {
+            background: #3174f1;
+            padding: 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .miranda-rechte, .search-bar, .law-header {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-bar input {
+            width: 70%;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+            background: #1e1e1e;
+            color: white;
+            text-align: center;
+        }
+        .search-bar button {
+            background: #3174f1;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .search-bar button:hover {
+            background: #255ac7;
+        }
+        .law-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            padding: 0 20px;
+        }
+        .law-header button {
+            background: #3174f1;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .law-header button:hover {
+            background: #255ac7;
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            color: #4CAF50;
+        }
+        .card p {
+            color: #bbb;
+        }
+        .card .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .card .badge div {
+            background-color: #3174f1;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .card .icon {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+        .card.hidden {
+            display: none;
+        }
+        .law-header.hidden,
+        .card-container.hidden {
+            visibility: hidden;
+            height: 0;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header" style="display: flex; justify-content: space-between; align-items: center;">
+        <a href="zweite-seite.html" style="color: white; text-decoration: none; font-size: 14px; background: #255ac7; padding: 6px 10px; border-radius: 4px; margin-right: auto;">
+            Bußgeldrechner
+        </a>
+        <span style="flex-grow: 1; text-align: center;">Bußgeld Katalog</span>
+        <span style="width: 80px;"></span> <!-- Platzhalter rechts -->
+    </div>    
+
+        <!-- Miranda Rechte -->
+        <div class="miranda-rechte">
+            <h2>Miranda Rechte</h2>
+            <p>Sie haben das Recht zu schweigen, alles was Sie sagen kann und wird vor Gericht gegen Sie verwendet werden können.</p>
+            <p>Sie haben das Recht zu jeder Vernehmung Ihren Rechtsanwalt hinzuzuziehen.</p>
+            <p>Haben Sie Ihre Rechte verstanden?</p>
+        </div>
+
+        <!-- Suche -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Suche nach Delikt, Paragraph oder Strafe..." onkeyup="searchLaw()">
+            <button onclick="resetSearch()">Zurücksetzen</button>
+        </div>
+
+        <!-- Sektionen + Karten -->
+        <!-- Beispiel: Strafgesetzbuch -->
+        <!-- Strafgesetzbuch -->
+<div class="law-header" id="law-header-1">
+    <h2>Strafgesetzbuch</h2>
+    <button onclick="window.open('https://docs.google.com/document/d/1Lv5zXF7gLRShaP-AY_Bgr_SDb3DIkpImBftq2hUOfUo/edit?usp=sharing')">Gesetzbuch</button>
+</div>
+<section class="card-container" id="law-container-1">
+    <div class="card" data-law="Hausfriedensbruch §8 10000">
+        <div class="badge"></div>
+        <h3>§8 Hausfriedensbruch</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Beleidigung §9 10000">
+        <div class="badge"></div>
+        <h3>§9 Beleidigung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Üble Nachrede / Verleumdung §10 10000">
+        <div class="badge"></div>
+        <h3>§10 Üble Nachrede / Verleumdung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Sachbeschädigung §11 10000">
+        <div class="badge"></div>
+        <h3>§11 Sachbeschädigung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Körperverletzung §12 10000">
+        <div class="badge"></div>
+        <h3>§12 Körperverletzung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt + Schließt aus §23, 27 StGB</p>
+    </div>
+    <div class="card" data-law="Freiheitsberaubung §13 20000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§13 Freiheitsberaubung</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+        <p>Schließt aus §14, 37 StGB</p>
+    </div>
+    <div class="card" data-law="Geiselnahme §14 20000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§14 Geiselnahme</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+        <p>Schließt aus §13, 16, 37 StGB</p>
+    </div>
+    <div class="card" data-law="Bildung von bewaffneten Gruppierungen §15 20000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§15 Bildung von bewaffneten Gruppierungen</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Erpressung §16 15000">
+        <div class="badge"></div>
+        <h3>§16 Erpressung</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Antragsdelikt + Schließt aus §37 StGB</p>
+    </div>
+    <div class="card" data-law="Diebstahl §17 15000">
+        <div class="badge"></div>
+        <h3>§17 Diebstahl</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Betrug und Computerbetrug §18 15000">
+        <div class="badge"></div>
+        <h3>§18 Betrug und Computerbetrug</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Urkundenfälschung §19 15000">
+        <div class="badge"><div>FIB</div></div>
+        <h3>§19 Urkundenfälschung</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Dienstvergehen §20 20000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§20 Dienstvergehen</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+        <p>FIBCO & Leitung muss mit vor Ort sein</p>
+    </div>
+    <div class="card" data-law="Unterlassene Hilfeleistung §21 10000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§21 Unterlassene Hilfeleistung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Totschlag §22 15000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§22 Totschlag</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Schließt aus §12, 23 StGB</p>
+    </div>
+    <div class="card" data-law="Mord §23 25000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§23 Mord</h3>
+        <p>💰 Strafe: 25.000$</p>
+        <p>⭐ 75 Minuten Haftstrafe</p>
+        <p>Schließt aus §12, 22, 46 StGB</p>
+    </div>
+    <div class="card" data-law="Falsche Verdächtigung §24 10000">
+        <div class="badge"></div>
+        <h3>§24 Falsche Verdächtigung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Meineid §25 15000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§25 Meineid</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Widerstand gegen Vollstreckungsbeamte §26 5000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§26 Widerstand gegen Vollstreckungsbeamte</h3>
+        <p>💰 Strafe: 5.000$</p>
+        <p>⭐ 15 Minuten Haftstrafe</p>
+        <p>Schließt aus §27 StGB</p>
+    </div>
+    <div class="card" data-law="Tätlicher Angriff auf Vollstreckungsbeamte §27 15000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§27 Tätlicher Angriff auf Vollstreckungsbeamte</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Schließt aus §12, 26 StGB</p>
+    </div>
+    <div class="card" data-law="Gefangenenbefreiung §28 20000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§28 Gefangenenbefreiung</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Gefangenenmeuterei §29 15000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§29 Gefangenenmeuterei</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Besitz illegaler Gegenstände §30 10000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§30 Besitz illegaler Gegenstände</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Besitz von staatlichem Eigentum §31 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§31 Besitz von staatlichem Eigentum</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Sexuelle Belästigung §32 10000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§32 Sexuelle Belästigung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Sicherheitsbereiche (Landfriedensbruch) §33 15000">
+        <div class="badge"></div>
+        <h3>§33 Gefangenenmeuterei</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>schwerer Fall möglich + Schließt aus: §34 StGB</p>
+    </div>
+    <div class="card" data-law="Ruhezone §34 15000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§34 Ruhezone</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Schließt aus §33 StGB</p>
+    </div>
+    <div class="card" data-law="Amtsanmaßung §35 20000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§35 Amtsanmaßung</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Amtsmissbrauch §36 20000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§36 Amtsmissbrauch</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Nötigung, Bedrohung, Belästigung §37 15000">
+        <div class="badge"></div>
+        <h3>§37 Nötigung, Bedrohung, Belästigung</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Missbräuchlicher Notruf §38 5000">
+        <div class="badge"></div>
+        <h3>§38 Missbräuchlicher Notruf</h3>
+        <p>💰 Strafe: 5.000$</p>
+        <p>⭐ 15 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Vermummung und Identitätsfeststellung §39 2500">
+        <div class="badge"><div>STA</div></div>
+        <h3>§39 Vermummung und Identitätsfeststellung</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Bestechung §40 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§40 Bestechung</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Tierquälerei §41 10000">
+        <div class="badge"></div>
+        <h3>§41 Tierquälerei</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Hochverrat §42 25000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§42 Hochverrat</h3>
+        <p>💰 Strafe: 25.000$</p>
+        <p>⭐ 75 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Stalking §43 15000">
+        <div class="badge"></div>
+        <h3>§43 Stalking</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Behinderung von Ermittlungsverfahren §44 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§44 Behinderung von Ermittlungsverfahren</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Erregung öffentlichen Ärgernisses §45 10000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§45 Erregung öffentlichen Ärgernisses</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Terroristischer Akt §46 25000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§46 Terroristischer Akt</h3>
+        <p>💰 Strafe: 25.000$</p>
+        <p>⭐ 75 Minuten Haftstrafe</p>
+        <p>Schließt aus §23 StGB</p>
+    </div>
+    <div class="card" data-law="Inverkehrbringen von medizinischen Mitteln §47 10000">
+        <div class="badge"><div>FIB</div></div>
+        <h3>§47 Inverkehrbringen von medizinischen Mitteln</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Erschleichen von Leistungen §48 10000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§48 Erschleichen von Leistungen</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Antragsdelikt</p>
+    </div>
+    <div class="card" data-law="Unerlaubte Veranstaltung eines Glücksspiels §49 15000">
+        <div class="badge"><div>FIB</div></div>
+        <h3>§49 Unerlaubte Veranstaltung eines Glücksspiels</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Schließt aus §50 StGB</p>
+    </div>
+    <div class="card" data-law="Beteiligung am unerlaubten Glücksspiel §50 10000">
+        <div class="badge"><div>FIB</div></div>
+        <h3>§50 Beteiligung am unerlaubten Glücksspiel</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Schließt aus §49 StGB</p>
+    </div>
+    <div class="card" data-law="Wahlbehinderung §51 10000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§51 Wahlbehinderung</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Lizenzhandel §53 10000">
+        <div class="badge"><div>STA</div></div>
+        <h3>§53 Lizenzhandel</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Schließt aus §4.3 WaffG</p>
+    </div>
+    <div class="card" data-law="Raubüberfall §54 20000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§54 Raubüberfall</h3>
+        <p>💰 Strafe: 20.000$</p>
+        <p>⭐ 60 Minuten Haftstrafe</p>
+        <p>Schließt aus §55 StGB</p>
+    </div>
+    <div class="card" data-law="Schwerer Raubüberfall §55 25000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§55 Schwerer Raubüberfall</h3>
+        <p>💰 Strafe: 25.000$</p>
+        <p>⭐ 75 Minuten Haftstrafe</p>
+        <p>Schließt aus §54 StGB</p>
+    </div>
+</section>
+
+<!-- Waffengesetz -->
+<div class="law-header" id="law-header-2">
+    <h2>Waffengesetz</h2>
+    <button onclick="window.open('https://docs.google.com/document/d/1cNH5ZyJswn5XMnUnNlHAMDUvH2EwaNkc0Of2AGZy4nQ/edit?usp=sharing')">Gesetzbuch</button>
+</div>
+<section class="card-container" id="law-container-2">
+    <div class="card" data-law="Waffenscheinweitergabe §4.3 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§4.3 Waffenscheinweitergabe</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Entzug der Waffenlizenz</p>
+    </div>
+    <div class="card" data-law="Besitz illegaler Waffen (inkl. Munition) §5.1 15000">
+        <div class="badge"></div>
+        <h3>§5.1 Besitz illegaler Waffen (inkl. Munition)</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §5.4 WaffG</p>
+    </div>
+    <div class="card" data-law="Besitz legaler Waffen ohne Seriennummer §5.2 10000">
+        <div class="badge"></div>
+        <h3>§5.2 Besitz legaler Waffen ohne Seriennummer</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §5.3 WaffG</p>
+    </div>
+    <div class="card" data-law="Besitz einer legalen Waffe ohne Lizenz §5.3 5000">
+        <div class="badge"></div>
+        <h3>§5.3 Besitz einer legalen Waffe ohne Lizenz</h3>
+        <p>💰 Strafe: 5.000$</p>
+        <p>⭐ 15 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §5.2, 5.4 WaffG</p>
+    </div>
+    <div class="card" data-law="Besitz von Munition ohne Lizenz §5.4 5000">
+        <div class="badge"></div>
+        <h3>§5.4 Besitz von Munition ohne Lizenz</h3>
+        <p>💰 Strafe: 5.000$</p>
+        <p>⭐ 15 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Munition + Schließt aus §5.3 WaffG</p>
+    </div>
+    <div class="card" data-law="Besitz von modifizierten Waffen §5.5 10000">
+        <div class="badge"></div>
+        <h3>§5.5 Besitz von modifizierten Waffen</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Munition + Schließt aus §5.1 WaffG</p>
+    </div>
+    <div class="card" data-law="Verstoß gegen eine Waffenverbotszone §6.1 5000">
+        <div class="badge"></div>
+        <h3>§10 Verstoß gegen eine Waffenverbotszone</h3>
+        <p>💰 Strafe: 5.000$</p>
+        <p>⭐ 15 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Waffe / Entzug der Waffenlizenz</p>
+    </div>
+    <div class="card" data-law="Unerlaubte Waffennutzung §6.2 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§6.2 Unerlaubte Waffennutzung</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §22, 23 StGB</p>
+    </div>
+    <div class="card" data-law="Unerlaubter Waffenhandel legaler Waffen §7.1 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§7.1 Unerlaubter Waffenhandel legaler Waffen</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Waffe + Schließt aus §7.2 WaffG</p>
+    </div>
+    <div class="card" data-law="Unerlaubter Waffenhandel illegaler Waffen §7.2 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§7.2 Unerlaubter Waffenhandel illegaler Waffen</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Konfiszieren d. Waffe / Entzug der Waffenlizenz + Schließt aus §7.1 WaffG</p>
+    </div>
+</section>
+
+<!-- Straßenverkehrsordnung -->
+<div class="law-header" id="law-header-3">
+    <h2>Straßenverkehrsordnung</h2>
+    <button onclick="window.open('https://docs.google.com/document/d/1-AClIByd-_pybUW2zpheTfngR76TuI-E73_hNxstYf4/edit?usp=sharing')">Gesetzbuch</button>
+</div>
+<section class="card-container" id="law-container-3">
+    <div class="card" data-law="Nichtmitführen eines Reparatur- und Verbandsmaterial im Kofferraum §2.5 2500">
+        <div class="badge"></div>
+        <h3>§2.5 Nichtmitführen eines Reparatur- und Verbandsmaterial im Kofferraum</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Fehlende KFZ-Registrierung §2.8 2500">
+        <div class="badge"></div>
+        <h3>§32 Fehlende KFZ-Registrierung</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law=" Teilnahme am Straßenverkehr unter Alkohol/BtM §2.11 10000">
+        <div class="badge"></div>
+        <h3>§2.11  Teilnahme am Straßenverkehr unter Alkohol/BtM</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führerscheinentzug</p>
+    </div>
+    <div class="card" data-law="Fahren abseits befestigter Straßen §4.3 2500">
+        <div class="badge"></div>
+        <h3>§4.3 Fahren abseits befestigter Straßen</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Gefährlicher Eingriff in den Straßenverkehr §5 10000">
+        <div class="badge"></div>
+        <h3>§5 Gefährlicher Eingriff in den Straßenverkehr</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führerscheinentzug + Schließt aus Alle weiteren StVO § außer §2.8, 15</p>
+    </div>
+    <div class="card" data-law="Fahren entgegen der Fahrtrichtung §5.3 2500">
+        <div class="badge"></div>
+        <h3>§5.3 Fahren entgegen der Fahrtrichtung</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Geschwindigkeitsüberschreitung 25-100 km/h §6a 2500">
+        <div class="badge"></div>
+        <h3>§6a Geschwindigkeits- 
+            überschreitung 25-100 km/h</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Geschwindigkeitsüberschreitung 101-200 km/h §6b 5000">
+        <div class="badge"></div>
+        <h3>§6b Geschwindigkeits-
+            überschreitung 101-200 km/h</h3>
+        <p>💰 Strafe: 5.000€</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führerscheinentzug</p>
+    </div>
+    <div class="card" data-law="Geschwindigkeitsüberschreitung über 201 km/h §6c 7500">
+        <div class="badge"></div>
+        <h3>§6c Geschwindigkeits-
+            überschreitung über 201 km/h</h3>
+        <p>💰 Strafe: 7.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führerscheinentzug + Schließt aus §6b StVO</p>
+    </div>
+    <div class="card" data-law="Missachtung von Stoppschildern / Stopp Markierungen §7.1 2500">
+        <div class="badge"></div>
+        <h3>§7.1 Missachtung von Stoppschildern / Stopp Markierungen</h3>
+        <p>💰 Strafe: 2.500€</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Missachtung von Wendeverbotsschildern §7.3 2500">
+        <div class="badge"></div>
+        <h3>§7.3 Missachtung von Wendeverbotsschildern</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Missachtung der Vorfahrtsregel Rechts vor Links §8.5 2500">
+        <div class="badge"></div>
+        <h3>§8.5 Missachtung von Stoppschildern / Stopp Markierungen</h3>
+        <p>💰 Strafe: 2.500€</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Unzulässiges Halten und Parken §9 2500">
+        <div class="badge"></div>
+        <h3>§9 Unzulässiges Halten und Parken</h3>
+        <p>💰 Strafe: 2.500€</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+    </div>
+    <div class="card" data-law="Illegales Straßenrennen §10.3 5000">
+        <div class="badge"></div>
+        <h3>§10.3 Illegales Straßenrennen</h3>
+        <p>💰 Strafe: 5.000$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führerscheinentzug</p>
+    </div>
+    <div class="card" data-law="Unerlaubtes Entfernen vom Unfallort (Fahrerflucht) §11.5 10000">
+        <div class="badge"></div>
+        <h3>§11.5 Unerlaubtes Entfernen vom Unfallort (Fahrerflucht)</h3>
+        <p>💰 Strafe: 10.000€</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führerscheinentzug</p>
+    </div>
+    <div class="card" data-law="Nichtgenehmigtes Starten/Landen von Fluggeräten §13.1 2500">
+        <div class="badge"></div>
+        <h3>§13.1 Nichtgenehmigtes Starten/Landen von Fluggeräten</h3>
+        <p>💰 Strafe: 2.500$</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führer-/Flugscheinentzug</p>
+    </div>
+    <div class="card" data-law="Missachtung von Stopp-Anforderungen der Beamten §15 5000">
+        <div class="badge"></div>
+        <h3>§15 Missachtung von Stopp-Anforderungen der Beamten</h3>
+        <p>💰 Strafe: 5.000€</p>
+        <p>⭐ 0 Minuten Haftstrafe</p>
+        <p>Führerscheinentzug</p>
+    </div>
+</section>
+
+<!-- BtMG -->
+<div class="law-header" id="law-header-4">
+    <h2>Betäubungsmittelgesetz (BtMG)</h2>
+    <button onclick="window.open('https://docs.google.com/document/d/1K6Z8QK_i9ExMCbdfvPAn2c23f9LUYwuREWGYyYk7IHo/edit?usp=sharing')">Gesetzbuch</button>
+</div>
+<section class="card-container" id="law-container-4">
+    <div class="card" data-law="Anbau von Betäubungsmitteln §3 10000">
+        <div class="badge"></div>
+        <h3>§3 Anbau von Betäubungsmitteln</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Straffrei mit Ärztlichem Gutachten</p>
+    </div>
+    <div class="card" data-law="Besitz von Betäubungsmitteln §4 10000">
+        <div class="badge"></div>
+        <h3>§4 Besitz von Betäubungsmitteln</h3>
+        <p>💰 Strafe: 10.000$</p>
+        <p>⭐ 30 Minuten Haftstrafe</p>
+        <p>Straffrei: Drogen 4 Stk. & 2 Samen mit Ärztlichem Gutachten</p>
+    </div>
+    <div class="card" data-law="Handel mit Betäubungsmitteln §5 15000">
+        <div class="badge"><div>STA</div><div>FIB</div></div>
+        <h3>§5 Handel mit Betäubungsmitteln</h3>
+        <p>💰 Strafe: 15.000$</p>
+        <p>⭐ 45 Minuten Haftstrafe</p>
+        <p>Schließt aus §4 BtMG</p>
+    </div>
+    <div class="card" data-law="Konsum von Betäubungsmitteln §6 5000">
+        <div class="badge"></div>
+        <h3>§6 Konsum von Betäubungsmitteln</h3>
+        <p>💰 Strafe: 5.000$</p>
+        <p>⭐ 15 Minuten Haftstrafe</p>
+    </div>
+</section>
+
+    <script>
+        function searchLaw() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const lawSections = document.querySelectorAll('.law-header');
+
+            lawSections.forEach(section => {
+                const containerId = section.id.replace('law-header', 'law-container');
+                const container = document.getElementById(containerId);
+                const cards = container.querySelectorAll('.card');
+                let anyVisible = false;
+
+                cards.forEach(card => {
+                    const lawText = card.getAttribute('data-law').toLowerCase();
+                    if (lawText.includes(input)) {
+                        card.classList.remove('hidden');
+                        anyVisible = true;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                if (anyVisible) {
+                    section.classList.remove('hidden');
+                    container.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                    container.classList.add('hidden');
+                }
+            });
+        }
+
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            searchLaw();
+        }
+    </script>
+</body>
+</html>
